@@ -10,41 +10,44 @@
   <script src="https://mozilla.github.io/pdf.js/build/pdf.mjs" type="module"></script>
 
 <script type="module">
-  import { pdfjsLib } from 'https://mozilla.github.io/pdf.js/build/pdf.mjs';
 
-  // Example using a CORS proxy
-  const corsProxy = 'https://cors-anywhere.herokuapp.com/';
-  const pdfUrl = 'https://github.com/Achrafvin/menu/blob/4bdb855da0d8e47a1b769b759c07b78f1d5d1793/cv.pdf'; // External PDF URL
-  const proxiedUrl = corsProxy + pdfUrl;
+
+  var corsProxy = 'https://cors-anywhere.herokuapp.com/';
+  var pdfUrl = 'cv.pdf';
+  var proxiedUrl = corsProxy + pdfUrl;
+  
+
+  var { pdfjsLib } = globalThis;
 
   pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://mozilla.github.io/pdf.js/build/pdf.worker.mjs';
 
-  const loadingTask = pdfjsLib.getDocument(proxiedUrl);
+  var loadingTask = pdfjsLib.getDocument(proxiedUrl);
   loadingTask.promise.then(function(pdf) {
     console.log('PDF loaded');
 
-    pdf.getPage(1).then(function(page) {
+    var pageNumber = 1;
+    pdf.getPage(pageNumber).then(function(page) {
       console.log('Page loaded');
 
-      const scale = 1.5;
-      const viewport = page.getViewport({ scale });
+      var scale = 1.5;
+      var viewport = page.getViewport({scale: scale});
 
-      const canvas = document.getElementById('the-canvas');
-      const context = canvas.getContext('2d');
+      var canvas = document.getElementById('the-canvas');
+      var context = canvas.getContext('2d');
       canvas.height = viewport.height;
       canvas.width = viewport.width;
 
-      const renderContext = {
+      var renderContext = {
         canvasContext: context,
         viewport: viewport
       };
-      const renderTask = page.render(renderContext);
-      renderTask.promise.then(() => {
+      var renderTask = page.render(renderContext);
+      renderTask.promise.then(function () {
         console.log('Page rendered');
       });
     });
-  }).catch(function(reason) {
-    console.error('Error:', reason);
+  }, function (reason) {
+    console.error(reason);
   });
 </script>
 
