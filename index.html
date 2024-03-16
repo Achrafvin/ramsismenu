@@ -14,7 +14,7 @@
 
   // Example using a CORS proxy
   const corsProxy = 'https://cors-anywhere.herokuapp.com/';
-  const pdfUrl = 'http://example.com/cv.pdf'; // External PDF URL
+  const pdfUrl = 'cv.pdf'; // External PDF URL
   const proxiedUrl = corsProxy + pdfUrl;
 
   pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://mozilla.github.io/pdf.js/build/pdf.worker.mjs';
