@@ -10,49 +10,44 @@
   <script src="https://mozilla.github.io/pdf.js/build/pdf.mjs" type="module"></script>
 
 <script type="module">
-  // If absolute URL from the remote server is provided, configure the CORS
-  // header on that server.
-  var url = 'https://github.com/Achrafvin/menu/blob/9051b4e3e485facaeeff344fc97c01be5cc2ff67/cv.pdf';
+  import { pdfjsLib } from 'https://mozilla.github.io/pdf.js/build/pdf.mjs';
 
-  // Loaded via <script> tag, create shortcut to access PDF.js exports.
-  var { pdfjsLib } = globalThis;
+  // Example using a CORS proxy
+  const corsProxy = 'https://cors-anywhere.herokuapp.com/';
+  const pdfUrl = 'http://example.com/cv.pdf'; // External PDF URL
+  const proxiedUrl = corsProxy + pdfUrl;
 
-  // The workerSrc property shall be specified.
   pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://mozilla.github.io/pdf.js/build/pdf.worker.mjs';
 
-  // Asynchronous download of PDF
-  var loadingTask = pdfjsLib.getDocument(url);
+  const loadingTask = pdfjsLib.getDocument(proxiedUrl);
   loadingTask.promise.then(function(pdf) {
     console.log('PDF loaded');
 
-    // Fetch the first page
-    var pageNumber = 1;
-    pdf.getPage(pageNumber).then(function(page) {
+    pdf.getPage(1).then(function(page) {
       console.log('Page loaded');
 
-      var scale = 1.5;
-      var viewport = page.getViewport({scale: scale});
+      const scale = 1.5;
+      const viewport = page.getViewport({ scale });
 
-      // Prepare canvas using PDF page dimensions
-      var canvas = document.getElementById('the-canvas');
-      var context = canvas.getContext('2d');
+      const canvas = document.getElementById('the-canvas');
+      const context = canvas.getContext('2d');
       canvas.height = viewport.height;
       canvas.width = viewport.width;
 
-      // Render PDF page into canvas context
-      var renderContext = {
+      const renderContext = {
         canvasContext: context,
         viewport: viewport
       };
-      var renderTask = page.render(renderContext);
-      renderTask.promise.then(function () {
+      const renderTask = page.render(renderContext);
+      renderTask.promise.then(() => {
         console.log('Page rendered');
       });
     });
-  }, function (reason) {
-    console.error(reason);
+  }).catch(function(reason) {
+    console.error('Error:', reason);
   });
 </script>
+
 <canvas id="the-canvas" style="direction: ltr;"></canvas>
 </body>
 </html>
