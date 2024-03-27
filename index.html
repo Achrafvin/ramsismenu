@@ -4,24 +4,24 @@
 <head>
   <meta charset="UTF-8">
   <title>example</title>
+
 </head>
 <body>
 <style>
 #fullsize-iframe {
   width: 100vw;
   height: 100vh;
-  border: none; /* Optional: removes the border */
+  border: none;
 }
 
 </style>
-<iframe id="fullsize-iframe" src="https://docs.google.com/gview?url=https://res.cloudinary.com/dv6thunik/image/upload/v1711579836/gazosifmddowahra2fs0.pdf&embedded=true" frameborder="0"></iframe>
+<iframe id="fullsize-iframe" src="https://docs.google.com/gview?url=&embedded=true" frameborder="0"></iframe>
 
 <script>
   function adjustIframeHeight() {
     const iframe = document.getElementById('fullsize-iframe');
     iframe.style.height = window.innerHeight + 'px';
   }
-
   window.addEventListener('resize', adjustIframeHeight);
   window.addEventListener('DOMContentLoaded', adjustIframeHeight);
 </script>
